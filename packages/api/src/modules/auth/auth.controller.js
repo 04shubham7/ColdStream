@@ -48,6 +48,10 @@ export const logout = async (req, res) => {
   return res.status(200).json(ApiResponse.ok(null, "Logged out"));
 };
 
+export const getMe = async (req, res) => {
+  return res.status(200).json(ApiResponse.ok(req.user));
+};
+
 export const oauthCallback = async (req, res) => {
   const { user, accessToken, refreshToken } = await authService.oauthLogin(
     req.body
