@@ -9,7 +9,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "kafkajs": "^2.2.8",
+    "kafkajs": "^2.2.4",
     "mongoose": "^8.7.0",
     "dotenv": "^16.4.5",
     "ioredis": "^5.4.1",
