@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import { env } from "./config/env.js";
 import { connectDB } from "./config/database.js";
 import { errorHandler } from "./middleware/errorHandler.js";
+import authRoutes from "./modules/auth/auth.route.js";
 
 const app = express();
 
@@ -21,6 +22,8 @@ app.use(cookieParser());
 app.get("/api/v1/health", (_req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
 });
+
+app.use("/api/v1/auth", authRoutes);
 
 app.use(errorHandler);
 
