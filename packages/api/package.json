@@ -1,0 +1,31 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "mongoose": "^8.7.0",
+    "cors": "^2.8.5",
+    "helmet": "^8.0.0",
+    "dotenv": "^16.4.5",
+    "zod": "^3.23.8",
+    "jsonwebtoken": "^9.0.2",
+    "bcryptjs": "^2.4.3",
+    "redis": "^4.7.0",
+    "@supabase/supabase-js": "^2.45.4",
+    "kafkajs": "^2.2.8",
+    "ioredis": "^5.4.1",
+    "express-rate-limit": "^7.4.1",
+    "cookie-parser": "^1.4.7"
+  },
+  "devDependencies": {
+    "eslint": "^9.11.1",
+    "nodemon": "^3.1.7"
+  }
+}
