@@ -9,6 +9,7 @@ import { errorHandler } from "./middleware/errorHandler.js";
 import authRoutes from "./modules/auth/auth.route.js";
 import templateRoutes from "./modules/template/template.route.js";
 import resumeRoutes from "./modules/resume/resume.route.js";
+import dispatchRoutes from "./modules/dispatch/dispatch.route.js";
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.get("/api/v1/health", (_req, res) => {
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/templates", templateRoutes);
 app.use("/api/v1/resumes", resumeRoutes);
+app.use("/api/v1/mail", dispatchRoutes);
 
 app.use(errorHandler);
 
