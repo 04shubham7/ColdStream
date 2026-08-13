@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { env } from "../config/env.js";
+import { env } from "../../config/env.js";
 
 export const generateAccessToken = (userId) => {
   return jwt.sign({ userId }, env.JWT_ACCESS_SECRET, {

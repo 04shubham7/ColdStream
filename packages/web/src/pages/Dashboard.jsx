@@ -1,8 +1,8 @@
-import { useAuthStore } from "../../store/authStore";
-import { useTemplates } from "../../hooks/useTemplates";
-import { useResumes } from "../../hooks/useResumes";
-import { useUserJobs } from "../../hooks/useDispatch";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/Card";
+import { useAuthStore } from "../store/authStore";
+import { useTemplates } from "../hooks/useTemplates";
+import { useResumes } from "../hooks/useResumes";
+import { useUserJobs } from "../hooks/useDispatch";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/Card";
 
 export default function Dashboard() {
   const user = useAuthStore((state) => state.user);

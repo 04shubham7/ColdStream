@@ -9,6 +9,7 @@ export const errorHandler = (err, _req, res, _next) => {
     });
   }
 
+  import("fs").then(fs => fs.appendFileSync("error.log", err.stack + "\n"));
   console.error("Unexpected error:", err);
 
   return res.status(500).json({

@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { useTemplates } from "../../hooks/useTemplates";
-import { useResumes } from "../../hooks/useResumes";
-import { useDispatchEmail, useUserJobs, useDispatchJob } from "../../hooks/useDispatch";
-import { Button } from "../../components/ui/Button";
-import { Input } from "../../components/ui/Input";
-import { Label } from "../../components/ui/Label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/Card";
+import { useTemplates } from "../hooks/useTemplates";
+import { useResumes } from "../hooks/useResumes";
+import { useDispatchEmail, useUserJobs, useDispatchJob } from "../hooks/useDispatch";
+import { Button } from "../components/ui/Button";
+import { Input } from "../components/ui/Input";
+import { Label } from "../components/ui/Label";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/Card";
 
 function DispatchForm({ onSuccess }) {
   const [recruiterEmail, setRecruiterEmail] = useState("");

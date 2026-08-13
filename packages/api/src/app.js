@@ -33,13 +33,5 @@ app.use("/api/v1/mail", dispatchRoutes);
 
 app.use(errorHandler);
 
-const startServer = async () => {
-  await connectDB();
-  app.listen(env.PORT, () => {
-    console.log(`API Gateway running on port ${env.PORT}`);
-  });
-};
-
-startServer();
 
 export default app;
