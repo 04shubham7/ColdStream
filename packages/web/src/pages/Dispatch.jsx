@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Package, Cog, CheckCircle2, AlertCircle, ChevronDown } from "lucide-react";
 import { useTemplates } from "../hooks/useTemplates";
 import { useResumes } from "../hooks/useResumes";
 import { useDispatchEmail, useUserJobs, useDispatchJob } from "../hooks/useDispatch";
@@ -40,7 +42,7 @@ function DispatchForm({ onSuccess }) {
   };
 
   return (
-    <Card>
+    <Card className="glass-card">
       <CardHeader>
         <CardTitle>Send Cold Email</CardTitle>
         <CardDescription>
@@ -74,7 +76,7 @@ function DispatchForm({ onSuccess }) {
                 id="template"
                 value={templateId}
                 onChange={(e) => setTemplateId(e.target.value)}
-                className="flex h-10 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="flex h-12 w-full rounded-xl border border-input/50 bg-white px-4 py-2 text-sm shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:border-primary hover:border-primary/30"
                 required
               >
                 <option value="">Select template</option>
@@ -92,7 +94,7 @@ function DispatchForm({ onSuccess }) {
                 id="resume"
                 value={resumeId}
                 onChange={(e) => setResumeId(e.target.value)}
-                className="flex h-10 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="flex h-12 w-full rounded-xl border border-input/50 bg-white px-4 py-2 text-sm shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:border-primary hover:border-primary/30"
                 required
               >
                 <option value="">Select resume</option>
@@ -149,7 +151,7 @@ function JobStatusCard({ jobId }) {
   if (!job) return null;
 
   return (
-    <Card className="mt-4">
+    <Card className="glass-card mt-4">
       <CardContent className="py-4">
         <div className="flex items-center justify-between">
           <div>
@@ -158,15 +160,15 @@ function JobStatusCard({ jobId }) {
               To: {job.recruiterEmail}
             </p>
           </div>
-          <span
-            className={`px-3 py-1 text-sm rounded-full font-medium ${
+            <span
+            className={`px-3 py-1 text-sm rounded-full font-semibold shadow-sm border ${
               job.status === "sent"
-                ? "bg-green-100 text-green-700"
+                ? "bg-green-100 text-green-700 border-green-200"
                 : job.status === "failed" || job.status === "dlq"
-                ? "bg-red-100 text-red-700"
+                ? "bg-red-100 text-red-700 border-red-200"
                 : job.status === "processing"
-                ? "bg-blue-100 text-blue-700"
-                : "bg-yellow-100 text-yellow-700"
+                ? "bg-blue-100 text-blue-700 border-blue-200"
+                : "bg-yellow-100 text-yellow-700 border-yellow-200"
             }`}
           >
             {job.status}
@@ -177,12 +179,92 @@ function JobStatusCard({ jobId }) {
   );
 }
 
+function getErrorType(errorStr) {
+  if (!errorStr) return "Unknown Error";
+  const str = errorStr.toLowerCase();
+  if (str.includes("mongo") || str.includes("topology")) return "Database Error (MongoDB)";
+  if (str.includes("redis") || str.includes("ioredis")) return "Cache Error (Redis)";
+  if (str.includes("kafka") || str.includes("broker")) return "Queue Error (Kafka)";
+  if (str.includes("econnrefused") && str.includes("smtp")) return "SMTP Connection Error";
+  if (str.includes("template") || str.includes("resume")) return "Resource Resolution Error";
+  return `Backend Error: ${errorStr.substring(0, 40)}...`;
+}
+
+function InlineJobTracker({ job }) {
+  const steps = [
+    { id: "queued", label: "Queued", icon: Package },
+    { id: "processing", label: "Processing", icon: Cog },
+    { 
+      id: job.status === "failed" || job.status === "dlq" ? "failed" : "sent", 
+      label: job.status === "failed" || job.status === "dlq" ? "Failed" : "Sent", 
+      icon: job.status === "failed" || job.status === "dlq" ? AlertCircle : CheckCircle2 
+    }
+  ];
+
+  const currentStepIndex = 
+    job.status === "queued" ? 0 : 
+    job.status === "processing" ? 1 : 
+    2;
+
+  return (
+    <motion.div
+      initial={{ height: 0, opacity: 0 }}
+      animate={{ height: "auto", opacity: 1 }}
+      exit={{ height: 0, opacity: 0 }}
+      className="overflow-hidden border-t border-white/20 bg-gray-50/50 rounded-b-xl"
+    >
+      <div className="p-6">
+        <div className="relative flex justify-between">
+          <div className="absolute top-5 left-12 right-12 h-0.5 bg-gray-200" />
+          <div 
+            className="absolute top-5 left-12 h-0.5 bg-primary transition-all duration-500"
+            style={{ width: `${(currentStepIndex / (steps.length - 1)) * 100}%`, maxWidth: "calc(100% - 3rem)" }}
+          />
+
+          {steps.map((step, index) => {
+            const isCompleted = index < currentStepIndex;
+            const isCurrent = index === currentStepIndex;
+            const isFailed = step.id === "failed";
+            
+            let colorClass = "bg-gray-100 text-gray-400 border-gray-200";
+            if (isCompleted) colorClass = "bg-primary text-primary-foreground border-primary";
+            else if (isCurrent) {
+              if (isFailed) colorClass = "bg-red-500 text-white border-red-500 ring-4 ring-red-500/20";
+              else if (step.id === "sent") colorClass = "bg-green-500 text-white border-green-500 ring-4 ring-green-500/20";
+              else colorClass = "bg-blue-500 text-white border-blue-500 ring-4 ring-blue-500/20 animate-pulse";
+            }
+
+            const Icon = step.icon;
+
+            return (
+              <div key={step.id} className="flex flex-col items-center gap-2 bg-transparent z-10 w-24">
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 bg-white transition-all duration-300 ${colorClass}`}>
+                  <Icon className="w-5 h-5" />
+                </div>
+                <span className={`text-xs font-medium ${isCurrent || isCompleted ? "text-gray-900" : "text-gray-400"}`}>
+                  {step.label}
+                </span>
+                {isFailed && isCurrent && (
+                  <span className="text-[10px] text-red-600 w-32 text-center leading-tight font-medium mt-1 bg-red-50 px-2 py-1 rounded">
+                    {getErrorType(job.lastError)}
+                  </span>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 function JobHistory() {
   const [page, setPage] = useState(1);
+  const [expandedJobId, setExpandedJobId] = useState(null);
   const { data, isLoading } = useUserJobs(page);
 
   return (
-    <Card>
+    <Card className="glass-card">
       <CardHeader>
         <CardTitle>Job History</CardTitle>
         <CardDescription>
@@ -202,26 +284,41 @@ function JobHistory() {
               {data.jobs.map((job) => (
                 <div
                   key={job.jobId}
-                  className="flex items-center justify-between p-3 rounded-lg border"
+                  className="flex flex-col rounded-xl border border-white/40 bg-white/40 shadow-sm transition-all overflow-hidden"
                 >
-                  <div>
-                    <p className="text-sm font-medium">{job.recruiterEmail}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {job.templateId?.name || "Template"} •{" "}
-                      {new Date(job.createdAt).toLocaleDateString()}
-                    </p>
-                  </div>
-                  <span
-                    className={`px-2 py-1 text-xs rounded-full ${
-                      job.status === "sent"
-                        ? "bg-green-100 text-green-700"
-                        : job.status === "failed" || job.status === "dlq"
-                        ? "bg-red-100 text-red-700"
-                        : "bg-yellow-100 text-yellow-700"
-                    }`}
+                  <div 
+                    className="flex items-center justify-between p-4 hover:bg-white/60 transition-colors cursor-pointer"
+                    onClick={() => setExpandedJobId(expandedJobId === job.jobId ? null : job.jobId)}
                   >
-                    {job.status}
-                  </span>
+                    <div>
+                      <p className="text-sm font-medium">{job.recruiterEmail}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {job.templateId?.name || "Template"} •{" "}
+                        {new Date(job.createdAt).toLocaleDateString()}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span
+                        className={`px-3 py-1 text-xs rounded-full font-semibold border ${
+                          job.status === "sent"
+                            ? "bg-green-100 text-green-700 border-green-200"
+                            : job.status === "failed" || job.status === "dlq"
+                            ? "bg-red-100 text-red-700 border-red-200"
+                            : job.status === "processing"
+                            ? "bg-blue-100 text-blue-700 border-blue-200"
+                            : "bg-yellow-100 text-yellow-700 border-yellow-200"
+                        }`}
+                      >
+                        {job.status}
+                      </span>
+                      <Button variant="ghost" size="sm" className="h-8 gap-1 pl-2 pr-3">
+                        Track <ChevronDown className={`w-4 h-4 transition-transform ${expandedJobId === job.jobId ? "rotate-180" : ""}`} />
+                      </Button>
+                    </div>
+                  </div>
+                  <AnimatePresence>
+                    {expandedJobId === job.jobId && <InlineJobTracker job={job} />}
+                  </AnimatePresence>
                 </div>
               ))}
             </div>
