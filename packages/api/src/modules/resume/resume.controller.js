@@ -1,7 +1,8 @@
 import * as resumeService from "./resume.service.js";
 import { ApiResponse } from "../../utils/ApiResponse.js";
+import { asyncHandler } from "../../utils/asyncHandler.js";
 
-export const uploadResume = async (req, res) => {
+export const uploadResume = asyncHandler(async (req, res) => {
   const resume = await resumeService.uploadResume(
     req.user._id,
     req.file,
@@ -11,17 +12,17 @@ export const uploadResume = async (req, res) => {
   return res
     .status(201)
     .json(ApiResponse.created(resume, "Resume uploaded"));
-};
+});
 
-export const getResumes = async (req, res) => {
+export const getResumes = asyncHandler(async (req, res) => {
   const resumes = await resumeService.getResumes(req.user._id);
 
   return res
     .status(200)
     .json(ApiResponse.ok(resumes));
-};
+});
 
-export const getResumeById = async (req, res) => {
+export const getResumeById = asyncHandler(async (req, res) => {
   const resume = await resumeService.getResumeById(
     req.user._id,
     req.params.id
@@ -30,12 +31,12 @@ export const getResumeById = async (req, res) => {
   return res
     .status(200)
     .json(ApiResponse.ok(resume));
-};
+});
 
-export const deleteResume = async (req, res) => {
+export const deleteResume = asyncHandler(async (req, res) => {
   await resumeService.deleteResume(req.user._id, req.params.id);
 
   return res
     .status(200)
     .json(ApiResponse.ok(null, "Resume deleted"));
-};
+});
