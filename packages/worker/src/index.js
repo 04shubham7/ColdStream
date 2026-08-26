@@ -155,7 +155,7 @@ const startWorker = async () => {
   await consumer.connect();
   console.log("Kafka consumer connected");
 
-  await consumer.subscribe({ topic: KAFKA_TOPIC, fromBeginning: false });
+  await consumer.subscribe({ topic: KAFKA_TOPIC, fromBeginning: true });
 
   await consumer.run({
     eachMessage: async ({ message }) => {

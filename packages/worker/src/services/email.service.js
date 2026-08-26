@@ -31,7 +31,15 @@ export const compileTemplate = (template, variables) => {
     compiled = compiled.replace(regex, value);
   }
 
-  return compiled;
+  // Convert newlines to <br> for HTML rendering
+  const htmlBody = compiled.replace(/\n/g, "<br/>");
+
+  // Wrap in a clean, modern HTML structure
+  return `
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 15px; line-height: 1.6; color: #1f2937; max-width: 600px; margin: 0 auto;">
+      ${htmlBody}
+    </div>
+  `;
 };
 
 export const compileSubject = (subject, variables) => {

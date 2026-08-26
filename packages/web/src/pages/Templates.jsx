@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTemplates, useCreateTemplate, useUpdateTemplate, useDeleteTemplate } from "../hooks/useTemplates";
 import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
@@ -11,6 +11,14 @@ function TemplateModal({ isOpen, onClose, template, onSave }) {
   const [subject, setSubject] = useState(template?.subject || "");
   const [body, setBody] = useState(template?.body || "");
 
+  useEffect(() => {
+    if (isOpen) {
+      setName(template?.name || "");
+      setSubject(template?.subject || "");
+      setBody(template?.body || "");
+    }
+  }, [isOpen, template]);
+
   if (!isOpen) return null;
 
   const handleSubmit = (e) => {
@@ -20,11 +28,11 @@ function TemplateModal({ isOpen, onClose, template, onSave }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="bg-card rounded-xl shadow-lg w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-[2px] transition-all">
+      <div className="bg-white rounded-xl shadow-xl border border-gray-200 w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto transform transition-all">
         <form onSubmit={handleSubmit}>
-          <div className="p-6 border-b">
-            <h2 className="text-lg font-semibold">
+          <div className="p-6 border-b border-gray-100">
+            <h2 className="text-xl font-semibold text-gray-900">
               {template ? "Edit Template" : "Create Template"}
             </h2>
           </div>
@@ -61,7 +69,7 @@ function TemplateModal({ isOpen, onClose, template, onSave }) {
               />
             </div>
           </div>
-          <div className="p-6 border-t flex justify-end gap-3">
+          <div className="p-6 border-t border-gray-100 flex justify-end gap-3 bg-gray-50/50 rounded-b-xl">
             <Button type="button" variant="outline" onClick={onClose}>
               Cancel
             </Button>
@@ -133,9 +141,9 @@ export default function Templates() {
           ))}
         </div>
       ) : templates?.length > 0 ? (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {templates.map((template) => (
-            <Card key={template._id} className="hover:shadow-md transition-shadow">
+            <Card key={template._id} className="glass-card flex flex-col group">
               <CardHeader>
                 <CardTitle className="text-lg">{template.name}</CardTitle>
                 <CardDescription className="line-clamp-1">
@@ -168,8 +176,8 @@ export default function Templates() {
           ))}
         </div>
       ) : (
-        <Card>
-          <CardContent className="py-12 text-center">
+        <Card className="glass-card">
+          <CardContent className="py-16 text-center flex flex-col items-center justify-center">
             <p className="text-muted-foreground mb-4">No templates yet</p>
             <Button onClick={handleCreate}>Create your first template</Button>
           </CardContent>

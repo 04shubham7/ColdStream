@@ -36,11 +36,11 @@ function UploadModal({ isOpen, onClose, onUpload }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="bg-card rounded-xl shadow-lg w-full max-w-md mx-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-[2px] transition-all">
+      <div className="bg-white rounded-xl shadow-xl border border-gray-200 w-full max-w-md mx-4 transform transition-all">
         <form onSubmit={handleSubmit}>
-          <div className="p-6 border-b">
-            <h2 className="text-lg font-semibold">Upload Resume</h2>
+          <div className="p-6 border-b border-gray-100">
+            <h2 className="text-xl font-semibold text-gray-900">Upload Resume</h2>
           </div>
           <div className="p-6 space-y-4">
             <div className="space-y-2">
@@ -56,7 +56,7 @@ function UploadModal({ isOpen, onClose, onUpload }) {
             <div className="space-y-2">
               <Label>PDF File</Label>
               <div
-                className="border-2 border-dashed rounded-lg p-6 text-center cursor-pointer hover:border-primary/50 transition-colors"
+                className="border-2 border-dashed border-gray-200 bg-gray-50 rounded-lg p-8 text-center cursor-pointer hover:border-gray-400 hover:bg-gray-100 transition-all"
                 onClick={() => fileInputRef.current?.click()}
               >
                 {file ? (
@@ -76,7 +76,7 @@ function UploadModal({ isOpen, onClose, onUpload }) {
               />
             </div>
           </div>
-          <div className="p-6 border-t flex justify-end gap-3">
+          <div className="p-6 border-t border-gray-100 flex justify-end gap-3 bg-gray-50/50 rounded-b-xl">
             <Button type="button" variant="outline" onClick={onClose}>
               Cancel
             </Button>
@@ -125,9 +125,9 @@ export default function Resumes() {
       </div>
 
       {isLoading ? (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {[1, 2, 3].map((i) => (
-            <Card key={i} className="animate-pulse">
+            <Card key={i} className="animate-pulse glass-card">
               <CardHeader>
                 <div className="h-5 bg-muted rounded w-1/2"></div>
               </CardHeader>
@@ -138,9 +138,9 @@ export default function Resumes() {
           ))}
         </div>
       ) : resumes?.length > 0 ? (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {resumes.map((resume) => (
-            <Card key={resume._id} className="hover:shadow-md transition-shadow">
+            <Card key={resume._id} className="glass-card">
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <div>
@@ -194,8 +194,8 @@ export default function Resumes() {
           ))}
         </div>
       ) : (
-        <Card>
-          <CardContent className="py-12 text-center">
+        <Card className="glass-card">
+          <CardContent className="py-16 text-center flex flex-col items-center justify-center">
             <p className="text-muted-foreground mb-4">No resumes uploaded</p>
             <Button onClick={() => setIsModalOpen(true)}>
               Upload your first resume
