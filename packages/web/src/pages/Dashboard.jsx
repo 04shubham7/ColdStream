@@ -46,7 +46,7 @@ export default function Dashboard() {
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => (
-          <Card key={stat.name}>
+          <Card key={stat.name} className="glass-card">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
                 {stat.name}
@@ -63,7 +63,7 @@ export default function Dashboard() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
-        <Card>
+        <Card className="glass-card">
           <CardHeader>
             <CardTitle>Recent Activity</CardTitle>
             <CardDescription>Your latest email dispatches</CardDescription>
@@ -74,7 +74,7 @@ export default function Dashboard() {
                 {jobsData.jobs.slice(0, 5).map((job) => (
                   <div
                     key={job.jobId}
-                    className="flex items-center justify-between p-3 rounded-lg border"
+                    className="flex items-center justify-between p-4 rounded-xl border border-white/40 bg-white/40 hover:bg-white/60 transition-colors shadow-sm"
                   >
                     <div>
                       <p className="text-sm font-medium">{job.recruiterEmail}</p>
@@ -83,12 +83,14 @@ export default function Dashboard() {
                       </p>
                     </div>
                     <span
-                      className={`px-2 py-1 text-xs rounded-full ${
+                      className={`px-3 py-1 text-xs rounded-full font-semibold border ${
                         job.status === "sent"
-                          ? "bg-green-100 text-green-700"
+                          ? "bg-green-100 text-green-700 border-green-200"
                           : job.status === "failed" || job.status === "dlq"
-                          ? "bg-red-100 text-red-700"
-                          : "bg-yellow-100 text-yellow-700"
+                          ? "bg-red-100 text-red-700 border-red-200"
+                          : job.status === "processing"
+                          ? "bg-blue-100 text-blue-700 border-blue-200"
+                          : "bg-yellow-100 text-yellow-700 border-yellow-200"
                       }`}
                     >
                       {job.status}
@@ -104,7 +106,7 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="glass-card">
           <CardHeader>
             <CardTitle>Quick Actions</CardTitle>
             <CardDescription>Get started with common tasks</CardDescription>
@@ -112,28 +114,28 @@ export default function Dashboard() {
           <CardContent className="space-y-3">
             <a
               href="/templates"
-              className="block p-3 rounded-lg border hover:bg-accent transition-colors"
+              className="block p-4 rounded-xl border border-white/40 bg-white/40 hover:bg-white/80 hover:shadow-md transition-all"
             >
-              <p className="text-sm font-medium">Create Template</p>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-sm font-semibold">Create Template</p>
+              <p className="text-xs text-muted-foreground mt-1">
                 Design a new cold email template
               </p>
             </a>
             <a
               href="/resumes"
-              className="block p-3 rounded-lg border hover:bg-accent transition-colors"
+              className="block p-4 rounded-xl border border-white/40 bg-white/40 hover:bg-white/80 hover:shadow-md transition-all"
             >
-              <p className="text-sm font-medium">Upload Resume</p>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-sm font-semibold">Upload Resume</p>
+              <p className="text-xs text-muted-foreground mt-1">
                 Add a PDF resume to your account
               </p>
             </a>
             <a
               href="/dispatch"
-              className="block p-3 rounded-lg border hover:bg-accent transition-colors"
+              className="block p-4 rounded-xl border border-white/40 bg-white/40 hover:bg-white/80 hover:shadow-md transition-all"
             >
-              <p className="text-sm font-medium">Send Email</p>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-sm font-semibold">Send Email</p>
+              <p className="text-xs text-muted-foreground mt-1">
                 Dispatch a cold email to a recruiter
               </p>
             </a>

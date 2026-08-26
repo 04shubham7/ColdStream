@@ -14,9 +14,11 @@ function Sidebar() {
   const user = useAuthStore((state) => state.user);
 
   return (
-    <div className="flex flex-col w-64 bg-card border-r min-h-screen">
+    <div className="flex flex-col w-64 bg-[#fbfbfb] border-r border-gray-200 min-h-screen relative z-10">
       <div className="p-6">
-        <h1 className="text-xl font-bold tracking-tight">ColdMailer</h1>
+        <h1 className="text-xl font-bold tracking-tight text-gray-900">
+          ColdMailer
+        </h1>
       </div>
 
       <nav className="flex-1 px-4 space-y-1">
@@ -78,9 +80,9 @@ function Header() {
   };
 
   return (
-    <header className="h-16 border-b bg-card flex items-center justify-between px-6">
+    <header className="h-16 border-b border-gray-200 bg-white flex items-center justify-between px-6 sticky top-0 z-20">
       <div></div>
-      <Button variant="ghost" onClick={handleLogout}>
+      <Button variant="outline" onClick={handleLogout}>
         Sign out
       </Button>
     </header>
