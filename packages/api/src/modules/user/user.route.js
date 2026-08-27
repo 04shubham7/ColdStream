@@ -1,10 +1,10 @@
 import { Router } from "express";
 import * as userController from "./user.controller.js";
-import { protect } from "../../middleware/auth.js";
+import { authenticate } from "../../middleware/auth.js";
 
 const router = Router();
 
-router.use(protect);
+router.use(authenticate);
 
 router.put("/profile", userController.updateProfile);
 router.get("/smtp", userController.getSmtpConfig);
