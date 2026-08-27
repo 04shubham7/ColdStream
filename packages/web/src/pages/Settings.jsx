@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Save, User, Mail, Server, Shield, Key } from "lucide-react";
 import api from "../lib/api";
-import useAuthStore from "../store/authStore";
+import { useAuthStore } from "../store/authStore";
 
 const Settings = () => {
   const { user, setUser } = useAuthStore();
