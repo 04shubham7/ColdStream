@@ -43,6 +43,12 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    smtpConfig: {
+      host: { type: String, default: "smtp.gmail.com" },
+      port: { type: Number, default: 587 },
+      user: { type: String, trim: true },
+      pass: { type: String, select: false },
+    },
   },
   {
     timestamps: true,

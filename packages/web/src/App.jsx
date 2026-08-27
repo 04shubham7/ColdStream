@@ -5,6 +5,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Layout from "./components/layout/Layout";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import Settings from "./pages/Settings";
 import Dashboard from "./pages/Dashboard";
 import Templates from "./pages/Templates";
 import Resumes from "./pages/Resumes";
@@ -32,6 +33,17 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <Settings />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/dashboard"
           element={

@@ -10,6 +10,7 @@ import authRoutes from "./modules/auth/auth.route.js";
 import templateRoutes from "./modules/template/template.route.js";
 import resumeRoutes from "./modules/resume/resume.route.js";
 import dispatchRoutes from "./modules/dispatch/dispatch.route.js";
+import userRoutes from "./modules/user/user.route.js";
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/templates", templateRoutes);
 app.use("/api/v1/resumes", resumeRoutes);
 app.use("/api/v1/mail", dispatchRoutes);
+app.use("/api/v1/users", userRoutes);
 
 app.use(errorHandler);
 
