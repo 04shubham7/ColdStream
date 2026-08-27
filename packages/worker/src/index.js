@@ -4,6 +4,7 @@ import { Kafka } from "kafkajs";
 import Redis from "ioredis";
 import { sendEmail, compileTemplate, compileSubject } from "./services/email.service.js";
 import { isDuplicateJob, markJobProcessed } from "./services/idempotency.service.js";
+import { decrypt } from "./utils/encryption.js";
 
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/coldmailer";
 const KAFKA_BROKER = process.env.KAFKA_BROKER || "localhost:9092";
@@ -44,6 +45,17 @@ const Resume = mongoose.model("Resume", new mongoose.Schema({
   fileName: String,
 }, { strict: false }));
 
+const User = mongoose.model("User", new mongoose.Schema({
+  name: String,
+  email: String,
+  smtpConfig: {
+    host: String,
+    port: Number,
+    user: String,
+    pass: String,
+  }
+}, { strict: false }));
+
 const EmailJob = mongoose.model("EmailJob", new mongoose.Schema({
   jobId: String,
   status: String,
@@ -78,6 +90,18 @@ const processEmailJob = async (job) => {
       throw new Error(`Resume ${job.resumeId} not found`);
     }
 
+    const user = await User.findById(job.userId);
+    if (!user || !user.smtpConfig || !user.smtpConfig.user || !user.smtpConfig.pass) {
+      throw new Error(`User ${job.userId} SMTP configuration is incomplete or missing`);
+    }
+
+    const smtpConfig = {
+      host: user.smtpConfig.host,
+      port: user.smtpConfig.port,
+      user: user.smtpConfig.user,
+      pass: decrypt(user.smtpConfig.pass)
+    };
+
     const compiledBody = compileTemplate(template, job.variables);
     const compiledSubject = compileSubject(template.subject, job.variables);
 
@@ -94,6 +118,7 @@ const processEmailJob = async (job) => {
       subject: compiledSubject,
       html: compiledBody,
       attachments,
+      smtpConfig,
     });
 
     await markJobProcessed(job.jobId);

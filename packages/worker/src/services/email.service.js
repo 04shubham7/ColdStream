@@ -1,18 +1,22 @@
 import nodemailer from "nodemailer";
 
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: parseInt(process.env.SMTP_PORT) || 587,
-  secure: false,
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-});
+export const sendEmail = async ({ to, subject, html, attachments, smtpConfig }) => {
+  if (!smtpConfig || !smtpConfig.user || !smtpConfig.pass) {
+    throw new Error("Missing SMTP configuration");
+  }
 
-export const sendEmail = async ({ to, subject, html, attachments }) => {
+  const transporter = nodemailer.createTransport({
+    host: smtpConfig.host || "smtp.gmail.com",
+    port: parseInt(smtpConfig.port) || 587,
+    secure: parseInt(smtpConfig.port) === 465,
+    auth: {
+      user: smtpConfig.user,
+      pass: smtpConfig.pass,
+    },
+  });
+
   const info = await transporter.sendMail({
-    from: process.env.SMTP_FROM || "noreply@coldmailer.com",
+    from: smtpConfig.user,
     to,
     subject,
     html,
