@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import Templates from "./pages/Templates";
 import Resumes from "./pages/Resumes";
 import Dispatch from "./pages/Dispatch";
+import Landing from "./pages/Landing";
 
 function App() {
   const checkAuth = useAuthStore((state) => state.checkAuth);
@@ -71,8 +72,8 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
-        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/" element={<Landing />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </div>
   );
