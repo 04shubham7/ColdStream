@@ -216,9 +216,18 @@ const Settings = () => {
                 className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
                 required
               />
-              <p className="text-xs text-gray-500 mt-1">
-                Use an App Password if using Gmail. Passwords are encrypted before saving.
-              </p>
+              <div className="text-xs text-gray-400 bg-purple-500/5 border border-purple-500/10 p-3 rounded-lg mt-2 space-y-2">
+                <p className="font-medium text-purple-300/90 flex items-center gap-1.5">
+                  <Shield className="w-3.5 h-3.5" />
+                  How to get a Gmail App Password:
+                </p>
+                <ol className="list-decimal pl-4 space-y-1">
+                  <li>Go to your <a href="https://myaccount.google.com/security" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:underline">Google Account Security page</a>.</li>
+                  <li>Ensure <strong>2-Step Verification</strong> is turned on.</li>
+                  <li>Search for <strong>"App passwords"</strong> in the top search bar.</li>
+                  <li>Create a new password (name it "ColdStream") and paste the 16 characters here.</li>
+                </ol>
+              </div>
             </div>
 
             <button
