@@ -81,6 +81,14 @@ function TemplateModal({ isOpen, onClose, template, onSave }) {
   );
 }
 
+const DEMO_TEMPLATE = {
+  _id: "demo",
+  name: "Software Engineer Application (Example)",
+  subject: "Application for {{role}} at {{company}}",
+  body: "Hi Hiring Team at {{company}},\n\nI am writing to express my strong interest in the {{role}} position. My background in building scalable web applications aligns well with the goals of {{company}}.\n\nPlease find my resume attached. I look forward to discussing how I can contribute to your team.\n\nBest regards,\n[Your Name]",
+  isDemo: true,
+};
+
 export default function Templates() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTemplate, setEditingTemplate] = useState(null);
@@ -114,6 +122,8 @@ export default function Templates() {
     }
   };
 
+  const displayTemplates = templates ? [DEMO_TEMPLATE, ...templates] : [DEMO_TEMPLATE];
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -140,48 +150,50 @@ export default function Templates() {
             </Card>
           ))}
         </div>
-      ) : templates?.length > 0 ? (
+      ) : (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {templates.map((template) => (
-            <Card key={template._id} className="glass-card flex flex-col group">
+          {displayTemplates.map((template) => (
+            <Card key={template._id} className={`glass-card flex flex-col group ${template.isDemo ? 'border-primary/20 bg-primary/5' : ''}`}>
               <CardHeader>
-                <CardTitle className="text-lg">{template.name}</CardTitle>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-lg">{template.name}</CardTitle>
+                  {template.isDemo && (
+                    <span className="text-[10px] font-semibold tracking-wider uppercase bg-primary/10 text-primary px-2 py-1 rounded-full">
+                      Example
+                    </span>
+                  )}
+                </div>
                 <CardDescription className="line-clamp-1">
                   {template.subject}
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground line-clamp-3 mb-4">
+                <p className="text-sm text-muted-foreground whitespace-pre-wrap line-clamp-3 mb-4">
                   {template.body}
                 </p>
-                <div className="flex gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleEdit(template)}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleDelete(template._id)}
-                    className="text-destructive hover:text-destructive"
-                  >
-                    Delete
-                  </Button>
-                </div>
+                {!template.isDemo && (
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleEdit(template)}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleDelete(template._id)}
+                      className="text-destructive hover:text-destructive"
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                )}
               </CardContent>
             </Card>
           ))}
         </div>
-      ) : (
-        <Card className="glass-card">
-          <CardContent className="py-16 text-center flex flex-col items-center justify-center">
-            <p className="text-muted-foreground mb-4">No templates yet</p>
-            <Button onClick={handleCreate}>Create your first template</Button>
-          </CardContent>
-        </Card>
       )}
 
       <TemplateModal
