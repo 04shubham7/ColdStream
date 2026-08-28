@@ -12,6 +12,8 @@ import Resumes from "./pages/Resumes";
 import Dispatch from "./pages/Dispatch";
 import Landing from "./pages/Landing";
 
+import { Toaster } from "react-hot-toast";
+
 function App() {
   const checkAuth = useAuthStore((state) => state.checkAuth);
   const isLoading = useAuthStore((state) => state.isLoading);
@@ -30,6 +32,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-background">
+      <Toaster position="top-right" />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
