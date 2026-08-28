@@ -1,14 +1,20 @@
+import { useState } from "react";
 import { useAuthStore } from "../store/authStore";
 import { useTemplates } from "../hooks/useTemplates";
 import { useResumes } from "../hooks/useResumes";
 import { useUserJobs } from "../hooks/useDispatch";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/Card";
+import { Button } from "../components/ui/Button";
+import { ChevronDown } from "lucide-react";
+import { AnimatePresence } from "framer-motion";
+import { InlineJobTracker } from "./Dispatch";
 
 export default function Dashboard() {
   const user = useAuthStore((state) => state.user);
   const { data: templates } = useTemplates();
   const { data: resumes } = useResumes();
   const { data: jobsData } = useUserJobs();
+  const [expandedJobId, setExpandedJobId] = useState(null);
 
   const stats = [
     {
@@ -74,27 +80,40 @@ export default function Dashboard() {
                 {jobsData.jobs.slice(0, 5).map((job) => (
                   <div
                     key={job.jobId}
-                    className="flex items-center justify-between p-4 rounded-xl border border-white/40 bg-white/40 hover:bg-white/60 transition-colors shadow-sm"
+                    className="flex flex-col rounded-xl border border-white/40 bg-white/40 shadow-sm transition-all overflow-hidden"
                   >
-                    <div>
-                      <p className="text-sm font-medium">{job.recruiterEmail}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {job.templateId?.name || "Template"}
-                      </p>
-                    </div>
-                    <span
-                      className={`px-3 py-1 text-xs rounded-full font-semibold border ${
-                        job.status === "sent"
-                          ? "bg-green-100 text-green-700 border-green-200"
-                          : job.status === "failed" || job.status === "dlq"
-                          ? "bg-red-100 text-red-700 border-red-200"
-                          : job.status === "processing"
-                          ? "bg-blue-100 text-blue-700 border-blue-200"
-                          : "bg-yellow-100 text-yellow-700 border-yellow-200"
-                      }`}
+                    <div 
+                      className="flex items-center justify-between p-4 hover:bg-white/60 transition-colors cursor-pointer"
+                      onClick={() => setExpandedJobId(expandedJobId === job.jobId ? null : job.jobId)}
                     >
-                      {job.status}
-                    </span>
+                      <div>
+                        <p className="text-sm font-medium">{job.recruiterEmail}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {job.templateId?.name || "Template"}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span
+                          className={`px-3 py-1 text-xs rounded-full font-semibold border ${
+                            job.status === "sent"
+                              ? "bg-green-100 text-green-700 border-green-200"
+                              : job.status === "failed" || job.status === "dlq"
+                              ? "bg-red-100 text-red-700 border-red-200"
+                              : job.status === "processing"
+                              ? "bg-blue-100 text-blue-700 border-blue-200"
+                              : "bg-yellow-100 text-yellow-700 border-yellow-200"
+                          }`}
+                        >
+                          {job.status}
+                        </span>
+                        <Button variant="ghost" size="sm" className="h-8 gap-1 pl-2 pr-3">
+                          Track <ChevronDown className={`w-4 h-4 transition-transform ${expandedJobId === job.jobId ? "rotate-180" : ""}`} />
+                        </Button>
+                      </div>
+                    </div>
+                    <AnimatePresence>
+                      {expandedJobId === job.jobId && <InlineJobTracker job={job} />}
+                    </AnimatePresence>
                   </div>
                 ))}
               </div>

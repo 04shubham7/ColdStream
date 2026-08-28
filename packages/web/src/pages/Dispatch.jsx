@@ -160,16 +160,15 @@ function JobStatusCard({ jobId }) {
               To: {job.recruiterEmail}
             </p>
           </div>
-            <span
-            className={`px-3 py-1 text-sm rounded-full font-semibold shadow-sm border ${
-              job.status === "sent"
+          <span
+            className={`px-3 py-1 text-sm rounded-full font-semibold shadow-sm border ${job.status === "sent"
                 ? "bg-green-100 text-green-700 border-green-200"
                 : job.status === "failed" || job.status === "dlq"
-                ? "bg-red-100 text-red-700 border-red-200"
-                : job.status === "processing"
-                ? "bg-blue-100 text-blue-700 border-blue-200"
-                : "bg-yellow-100 text-yellow-700 border-yellow-200"
-            }`}
+                  ? "bg-red-100 text-red-700 border-red-200"
+                  : job.status === "processing"
+                    ? "bg-blue-100 text-blue-700 border-blue-200"
+                    : "bg-yellow-100 text-yellow-700 border-yellow-200"
+              }`}
           >
             {job.status}
           </span>
@@ -190,21 +189,21 @@ function getErrorType(errorStr) {
   return `Backend Error: ${errorStr.substring(0, 40)}...`;
 }
 
-function InlineJobTracker({ job }) {
+export function InlineJobTracker({ job }) {
   const steps = [
     { id: "queued", label: "Queued", icon: Package },
     { id: "processing", label: "Processing", icon: Cog },
-    { 
-      id: job.status === "failed" || job.status === "dlq" ? "failed" : "sent", 
-      label: job.status === "failed" || job.status === "dlq" ? "Failed" : "Sent", 
-      icon: job.status === "failed" || job.status === "dlq" ? AlertCircle : CheckCircle2 
+    {
+      id: job.status === "failed" || job.status === "dlq" ? "failed" : "sent",
+      label: job.status === "failed" || job.status === "dlq" ? "Failed" : "Sent",
+      icon: job.status === "failed" || job.status === "dlq" ? AlertCircle : CheckCircle2
     }
   ];
 
-  const currentStepIndex = 
-    job.status === "queued" ? 0 : 
-    job.status === "processing" ? 1 : 
-    2;
+  const currentStepIndex =
+    job.status === "queued" ? 0 :
+      job.status === "processing" ? 1 :
+        2;
 
   return (
     <motion.div
@@ -216,7 +215,7 @@ function InlineJobTracker({ job }) {
       <div className="p-6">
         <div className="relative flex justify-between">
           <div className="absolute top-5 left-12 right-12 h-0.5 bg-gray-200" />
-          <div 
+          <div
             className="absolute top-5 left-12 h-0.5 bg-primary transition-all duration-500"
             style={{ width: `${(currentStepIndex / (steps.length - 1)) * 100}%`, maxWidth: "calc(100% - 3rem)" }}
           />
@@ -225,13 +224,17 @@ function InlineJobTracker({ job }) {
             const isCompleted = index < currentStepIndex;
             const isCurrent = index === currentStepIndex;
             const isFailed = step.id === "failed";
-            
-            let colorClass = "bg-gray-100 text-gray-400 border-gray-200";
-            if (isCompleted) colorClass = "bg-primary text-primary-foreground border-primary";
-            else if (isCurrent) {
+
+            let colorClass = "bg-gray-200 text-gray-500 border-gray-300";
+            if (isCompleted) {
+              if (step.id === "queued") colorClass = "bg-amber-500 text-white border-amber-500";
+              else if (step.id === "processing") colorClass = "bg-blue-500 text-white border-blue-500";
+              else colorClass = "bg-primary text-primary-foreground border-primary";
+            } else if (isCurrent) {
               if (isFailed) colorClass = "bg-red-500 text-white border-red-500 ring-4 ring-red-500/20";
               else if (step.id === "sent") colorClass = "bg-green-500 text-white border-green-500 ring-4 ring-green-500/20";
-              else colorClass = "bg-blue-500 text-white border-blue-500 ring-4 ring-blue-500/20 animate-pulse";
+              else if (step.id === "queued") colorClass = "bg-amber-500 text-white border-amber-500 ring-4 ring-amber-500/20 animate-pulse";
+              else if (step.id === "processing") colorClass = "bg-blue-500 text-white border-blue-500 ring-4 ring-blue-500/20 animate-pulse";
             }
 
             const Icon = step.icon;
@@ -286,7 +289,7 @@ function JobHistory() {
                   key={job.jobId}
                   className="flex flex-col rounded-xl border border-white/40 bg-white/40 shadow-sm transition-all overflow-hidden"
                 >
-                  <div 
+                  <div
                     className="flex items-center justify-between p-4 hover:bg-white/60 transition-colors cursor-pointer"
                     onClick={() => setExpandedJobId(expandedJobId === job.jobId ? null : job.jobId)}
                   >
@@ -299,15 +302,14 @@ function JobHistory() {
                     </div>
                     <div className="flex items-center gap-3">
                       <span
-                        className={`px-3 py-1 text-xs rounded-full font-semibold border ${
-                          job.status === "sent"
+                        className={`px-3 py-1 text-xs rounded-full font-semibold border ${job.status === "sent"
                             ? "bg-green-100 text-green-700 border-green-200"
                             : job.status === "failed" || job.status === "dlq"
-                            ? "bg-red-100 text-red-700 border-red-200"
-                            : job.status === "processing"
-                            ? "bg-blue-100 text-blue-700 border-blue-200"
-                            : "bg-yellow-100 text-yellow-700 border-yellow-200"
-                        }`}
+                              ? "bg-red-100 text-red-700 border-red-200"
+                              : job.status === "processing"
+                                ? "bg-blue-100 text-blue-700 border-blue-200"
+                                : "bg-yellow-100 text-yellow-700 border-yellow-200"
+                          }`}
                       >
                         {job.status}
                       </span>
