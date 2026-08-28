@@ -65,6 +65,8 @@ const EmailJob = mongoose.model("EmailJob", new mongoose.Schema({
   sentAt: Date,
 }, { strict: false, timestamps: true }));
 
+const producer = kafka.producer();
+
 const processEmailJob = async (job) => {
   console.log(`Processing job: ${job.jobId}`);
 
@@ -143,13 +145,10 @@ const processEmailJob = async (job) => {
         { $set: { status: "dlq", lastError: error.message } }
       );
 
-      const producer = kafka.producer();
-      await producer.connect();
       await producer.send({
         topic: KAFKA_DLQ_TOPIC,
         messages: [{ key: job.jobId, value: JSON.stringify({ ...job, error: error.message }) }],
       });
-      await producer.disconnect();
 
       console.log(`Job ${job.jobId} moved to DLQ after ${MAX_RETRIES} retries`);
     } else {
@@ -158,15 +157,9 @@ const processEmailJob = async (job) => {
         { $set: { status: "queued", lastError: error.message }, $inc: { retryCount: 1 } }
       );
 
-      const producer = kafka.producer();
-      await producer.connect();
-      await producer.send({
-        topic: KAFKA_TOPIC,
-        messages: [{ key: job.jobId, value: JSON.stringify(job) }],
-      });
-      await producer.disconnect();
-
-      console.log(`Job ${job.jobId} requeued (retry ${newRetryCount}/${MAX_RETRIES})`);
+      console.log(`Job ${job.jobId} failed, throwing to let KafkaJS retry (attempt ${newRetryCount}/${MAX_RETRIES})`);
+      // Throw the error so KafkaJS will backoff and retry the message automatically
+      throw error;
     }
   }
 };
@@ -175,6 +168,9 @@ const startWorker = async () => {
   console.log("Starting Email Dispatcher Worker...");
 
   await connectDB();
+  
+  await producer.connect();
+  console.log("Kafka producer connected for DLQ routing");
 
   const consumer = kafka.consumer({ groupId: KAFKA_GROUP_ID });
   await consumer.connect();

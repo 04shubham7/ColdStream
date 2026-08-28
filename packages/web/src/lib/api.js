@@ -16,6 +16,8 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+import toast from "react-hot-toast";
+
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -39,6 +41,24 @@ api.interceptors.response.use(
         window.location.href = "/login";
         return Promise.reject(refreshError);
       }
+    }
+
+    // Global error toasts
+    if (error.response) {
+      const { status, data } = error.response;
+      const message = data?.message || "An unexpected error occurred.";
+
+      if (status === 429) {
+        toast.error("Too many requests. Please try again later.", { id: "429" });
+      } else if (status === 400) {
+        toast.error(message, { id: "400" });
+      } else if (status === 403) {
+        toast.error("You don't have permission to do this.", { id: "403" });
+      } else if (status >= 500) {
+        toast.error("Server error. We're working on it!", { id: "500" });
+      }
+    } else if (error.request) {
+      toast.error("Network error. Please check your connection.", { id: "network" });
     }
 
     return Promise.reject(error);
