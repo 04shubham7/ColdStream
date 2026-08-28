@@ -59,14 +59,14 @@ export default function Landing() {
         </nav>
 
         {/* Hero Section */}
-        <main className="container mx-auto px-6 pt-32 pb-24 text-center">
+        <main className="container mx-auto px-6 pt-16 pb-24 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="max-w-4xl mx-auto space-y-8"
           >
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.3 }}
@@ -75,25 +75,25 @@ export default function Landing() {
               <span className="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
               v1.0 is now live in production
             </motion.div>
-            
+
             <h1 className="text-6xl md:text-8xl font-extrabold tracking-tighter leading-[1.1] text-gray-900">
               Automate your outreach. <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-gray-600 to-gray-400">
                 Never drop a lead.
               </span>
             </h1>
-            
+
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
               An enterprise-grade asynchronous email dispatcher powered by Apache Kafka, Redis, and React. Send thousands of personalized emails with guaranteed delivery and visual tracking.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8">
               <Link to={isAuthenticated ? "/dashboard" : "/signup"}>
                 <Button size="lg" className="h-14 px-8 text-lg font-bold shadow-2xl hover:scale-105 transition-transform">
                   Start Dispatching
                 </Button>
               </Link>
-              <a href="https://github.com/shubham-040711/ColdStream" target="_blank" rel="noreferrer">
+              <a href="https://github.com/04shubham7/ColdStream" target="_blank" rel="noreferrer">
                 <Button size="lg" variant="outline" className="h-14 px-8 text-lg font-bold bg-white/50 backdrop-blur-sm border-2 hover:bg-white/80">
                   <Terminal className="w-5 h-5 mr-2" />
                   View Architecture
@@ -113,25 +113,25 @@ export default function Landing() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <FeatureCard 
+            <FeatureCard
               icon={Zap}
               title="Kafka Engine"
               description="High-throughput asynchronous background worker using Apache Kafka for guaranteed, drop-free dispatching."
               delay={0.1}
             />
-            <FeatureCard 
+            <FeatureCard
               icon={Activity}
               title="Visual Tracking"
               description="Inline, real-time flowchart steppers on your dashboard to track exactly where your email is in the pipeline."
               delay={0.2}
             />
-            <FeatureCard 
+            <FeatureCard
               icon={Shield}
               title="Idempotency"
               description="Redis-powered idempotency locks and rate limiting prevent accidental double-sends and recruiter spam."
               delay={0.3}
             />
-            <FeatureCard 
+            <FeatureCard
               icon={Cloud}
               title="Cloud Storage"
               description="Seamless integration with Supabase for secure, fast, and reliable PDF resume attachment streaming."
@@ -144,7 +144,7 @@ export default function Landing() {
         <section className="py-32 border-t border-black/5 bg-white/40 backdrop-blur-xl">
           <div className="container mx-auto px-6 text-center">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-16">The Event-Driven Workflow</h2>
-            
+
             <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 max-w-5xl mx-auto">
               {[
                 { icon: LayoutDashboard, text: "UI Dispatch" },
@@ -153,7 +153,7 @@ export default function Landing() {
                 { icon: CheckCircle, text: "Email Delivered" }
               ].map((step, i) => (
                 <div key={i} className="flex flex-col md:flex-row items-center gap-4 md:gap-8">
-                  <motion.div 
+                  <motion.div
                     initial={{ opacity: 0, scale: 0.8 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
@@ -165,7 +165,7 @@ export default function Landing() {
                     </div>
                     <span className="font-semibold text-sm tracking-tight text-gray-600">{step.text}</span>
                   </motion.div>
-                  
+
                   {i < 3 && (
                     <div className="hidden md:block w-12 h-[2px] bg-gradient-to-r from-gray-300 to-transparent relative">
                       <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-gray-400"></div>
