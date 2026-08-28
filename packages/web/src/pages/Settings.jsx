@@ -66,18 +66,18 @@ const Settings = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       <div>
-        <h1 className="text-2xl font-bold text-white mb-2">Account Settings</h1>
-        <p className="text-gray-400">Manage your profile and email sending configuration.</p>
+        <h1 className="text-3xl font-bold tracking-tight text-gray-900 mb-1">Account Settings</h1>
+        <p className="text-gray-500">Manage your profile and email sending configuration.</p>
       </div>
 
       {message.text && (
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className={`p-4 rounded-xl border ${
+          className={`p-4 rounded-xl border font-medium ${
             message.type === "success" 
-              ? "bg-green-500/10 border-green-500/20 text-green-400" 
-              : "bg-red-500/10 border-red-500/20 text-red-400"
+              ? "bg-green-50 border-green-200 text-green-700" 
+              : "bg-red-50 border-red-200 text-red-700"
           }`}
         >
           {message.text}
@@ -89,21 +89,21 @@ const Settings = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-[#1C1C1E] border border-white/5 rounded-2xl p-6"
+          className="bg-white border border-gray-200 shadow-sm rounded-2xl p-6"
         >
-          <div className="flex items-center gap-3 mb-6 pb-6 border-b border-white/5">
-            <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
-              <User className="w-5 h-5 text-blue-400" />
+          <div className="flex items-center gap-3 mb-6 pb-6 border-b border-gray-100">
+            <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
+              <User className="w-5 h-5 text-blue-600" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-white">Profile</h2>
-              <p className="text-sm text-gray-400">Update your personal details.</p>
+              <h2 className="text-lg font-semibold text-gray-900">Profile</h2>
+              <p className="text-sm text-gray-500">Update your personal details.</p>
             </div>
           </div>
 
           <form onSubmit={handleProfileSubmit} className="space-y-5">
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300 flex items-center gap-2">
+              <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
                 Name
               </label>
               <div className="relative">
@@ -111,14 +111,14 @@ const Settings = () => {
                   type="text"
                   value={profileForm.name}
                   onChange={(e) => setProfileForm({ ...profileForm, name: e.target.value })}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                  className="w-full bg-white border border-gray-300 rounded-xl px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
                   required
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300 flex items-center gap-2">
+              <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
                 Email
               </label>
               <div className="relative">
@@ -126,7 +126,7 @@ const Settings = () => {
                   type="email"
                   value={profileForm.email}
                   onChange={(e) => setProfileForm({ ...profileForm, email: e.target.value })}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                  className="w-full bg-white border border-gray-300 rounded-xl px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
                   required
                 />
               </div>
@@ -148,23 +148,23 @@ const Settings = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="bg-[#1C1C1E] border border-white/5 rounded-2xl p-6"
+          className="bg-white border border-gray-200 shadow-sm rounded-2xl p-6"
         >
-          <div className="flex items-center gap-3 mb-6 pb-6 border-b border-white/5">
-            <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center">
-              <Mail className="w-5 h-5 text-purple-400" />
+          <div className="flex items-center gap-3 mb-6 pb-6 border-b border-gray-100">
+            <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center">
+              <Mail className="w-5 h-5 text-purple-600" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-white">Email Configuration</h2>
-              <p className="text-sm text-gray-400">Configure SMTP to send cold emails.</p>
+              <h2 className="text-lg font-semibold text-gray-900">Email Configuration</h2>
+              <p className="text-sm text-gray-500">Configure SMTP to send cold emails.</p>
             </div>
           </div>
 
           <form onSubmit={handleSmtpSubmit} className="space-y-5">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300 flex items-center gap-2">
-                  <Server className="w-4 h-4 text-gray-500" />
+                <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                  <Server className="w-4 h-4 text-gray-400" />
                   Host
                 </label>
                 <input
@@ -172,25 +172,25 @@ const Settings = () => {
                   value={smtpForm.host}
                   onChange={(e) => setSmtpForm({ ...smtpForm, host: e.target.value })}
                   placeholder="smtp.gmail.com"
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                  className="w-full bg-white border border-gray-300 rounded-xl px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
                   required
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Port</label>
+                <label className="text-sm font-medium text-gray-700">Port</label>
                 <input
                   type="number"
                   value={smtpForm.port}
                   onChange={(e) => setSmtpForm({ ...smtpForm, port: parseInt(e.target.value) })}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                  className="w-full bg-white border border-gray-300 rounded-xl px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
                   required
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300 flex items-center gap-2">
-                <User className="w-4 h-4 text-gray-500" />
+              <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                <User className="w-4 h-4 text-gray-400" />
                 SMTP Email (Username)
               </label>
               <input
@@ -198,14 +198,14 @@ const Settings = () => {
                 value={smtpForm.user}
                 onChange={(e) => setSmtpForm({ ...smtpForm, user: e.target.value })}
                 placeholder="you@gmail.com"
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                className="w-full bg-white border border-gray-300 rounded-xl px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
                 required
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300 flex items-center gap-2">
-                <Key className="w-4 h-4 text-gray-500" />
+              <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                <Key className="w-4 h-4 text-gray-400" />
                 App Password
               </label>
               <input
@@ -213,16 +213,16 @@ const Settings = () => {
                 value={smtpForm.pass}
                 onChange={(e) => setSmtpForm({ ...smtpForm, pass: e.target.value })}
                 placeholder="16-character app password"
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                className="w-full bg-white border border-gray-300 rounded-xl px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
                 required
               />
-              <div className="text-xs text-gray-400 bg-purple-500/5 border border-purple-500/10 p-3 rounded-lg mt-2 space-y-2">
-                <p className="font-medium text-purple-300/90 flex items-center gap-1.5">
+              <div className="text-xs text-gray-600 bg-purple-50 border border-purple-100 p-3 rounded-lg mt-2 space-y-2">
+                <p className="font-medium text-purple-700 flex items-center gap-1.5">
                   <Shield className="w-3.5 h-3.5" />
                   How to get a Gmail App Password:
                 </p>
                 <ol className="list-decimal pl-4 space-y-1">
-                  <li>Go to your <a href="https://myaccount.google.com/security" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:underline">Google Account Security page</a>.</li>
+                  <li>Go to your <a href="https://myaccount.google.com/security" target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:underline font-medium">Google Account Security page</a>.</li>
                   <li>Ensure <strong>2-Step Verification</strong> is turned on.</li>
                   <li>Search for <strong>"App passwords"</strong> in the top search bar.</li>
                   <li>Create a new password (name it "ColdStream") and paste the 16 characters here.</li>
