@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import api from "../lib/api";
+import { queryClient } from "../lib/queryClient";
 
 export const useAuthStore = create((set) => ({
   user: null,
@@ -11,6 +12,7 @@ export const useAuthStore = create((set) => ({
   login: async (email, password) => {
     const { data } = await api.post("/auth/login", { email, password });
     localStorage.setItem("accessToken", data.data.accessToken);
+    queryClient.clear();
     set({ user: data.data.user, isAuthenticated: true });
     return data.data;
   },
@@ -18,6 +20,7 @@ export const useAuthStore = create((set) => ({
   signup: async (name, email, password) => {
     const { data } = await api.post("/auth/signup", { name, email, password });
     localStorage.setItem("accessToken", data.data.accessToken);
+    queryClient.clear();
     set({ user: data.data.user, isAuthenticated: true });
     return data.data;
   },
@@ -27,6 +30,7 @@ export const useAuthStore = create((set) => ({
       await api.post("/auth/logout");
     } finally {
       localStorage.removeItem("accessToken");
+      queryClient.clear();
       set({ user: null, isAuthenticated: false });
     }
   },
