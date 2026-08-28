@@ -15,6 +15,7 @@ import dispatchRoutes from "./modules/dispatch/dispatch.route.js";
 import userRoutes from "./modules/user/user.route.js";
 
 const app = express();
+app.set("trust proxy", 1);
 
 app.use(helmet());
 app.use(cors({
