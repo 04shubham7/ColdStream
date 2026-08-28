@@ -6,7 +6,7 @@ import { ApiError } from "../../utils/ApiError.js";
 
 const RATE_LIMIT_WINDOW = 3600; // 1 hour in seconds
 const RATE_LIMIT_MAX = 50; // 50 emails per hour
-const IDEMPOTENCY_TTL = 86400; // 24 hours
+const IDEMPOTENCY_TTL = 30; // 30 seconds (prevents double-clicks)
 const DISPATCH_TOPIC = "email-dispatch-topic";
 
 export const dispatchEmail = async (userId, data) => {
