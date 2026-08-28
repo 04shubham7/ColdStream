@@ -21,10 +21,11 @@
 **ColdStream** is an enterprise-grade solution for managing outbound recruitment and sales emails. Built around a robust event-driven microservices architecture, it ensures that your emails are never lost in transit, preventing duplicate dispatches through advanced idempotency caching, and providing a stunning, minimalistic Vercel-inspired user interface.
 
 ### ✨ Core Features
-- **🚀 Async Dispatch Engine**: Powered by Apache Kafka for guaranteed, high-throughput email delivery.
-- **🎨 Modern UI/UX**: A sleek, high-end minimalist design system built with TailwindCSS and Framer Motion.
+- **🚀 Async Dispatch Engine**: Powered by Apache Kafka for guaranteed, high-throughput email delivery with optimized single-producer worker architecture.
+- **🎨 Modern UI/UX**: A sleek, high-end minimalist design system built with TailwindCSS, Framer Motion, and global toast notifications via `react-hot-toast`.
 - **📊 Visual Job Tracking**: Track the precise stage of your emails in real-time with an interactive, inline flowchart tracker.
-- **🛡️ Idempotent Operations**: Built-in rate limiting and idempotency (via Redis) to prevent duplicate emails and recruiter spam.
+- **🛡️ Enterprise Security**: Comprehensive API protection featuring global rate limiting (`express-rate-limit`), NoSQL injection prevention (`express-mongo-sanitize`), and strict input validation via `Zod`.
+- **⚡ Advanced Data Caching**: Intelligent state management and request deduplication using `Zustand` and `@tanstack/react-query`, backed by `Redis` on the server.
 - **☁️ Cloud Storage**: Resume PDF uploads seamlessly integrated with Supabase storage.
 - **📝 Dynamic Templating**: Create reusable email templates with dynamic variable injection (`{{company}}`, `{{role}}`).
 
@@ -64,9 +65,9 @@ graph TD
 ### 🧩 Package Structure
 | Package | Stack | Responsibility |
 |---|---|---|
-| **`packages/web`** | React 18, Vite, Tailwind, Framer Motion | Provides the dashboard, template editor, resume uploader, and visual dispatch tracker. |
-| **`packages/api`** | Node.js, Express, Mongoose | The REST API layer. Handles authentication, stores entities in MongoDB, enforces rate limits in Redis, and pushes jobs to Kafka. |
-| **`packages/worker`** | Node.js, KafkaJS, Nodemailer | The background processor. Subscribes to Kafka, formats HTML emails, attaches resumes from Supabase, and dispatches via SMTP. |
+| **`packages/web`** | React 18, Vite, Tailwind, Zustand, React Query | Provides the dashboard, template editor, resume uploader, and visual dispatch tracker. Includes global toast handling and advanced caching. |
+| **`packages/api`** | Node.js, Express, Mongoose, Zod | The secure REST API layer. Handles authentication, stores entities in MongoDB, enforces rate limits in Redis, validates schemas via Zod, and pushes jobs to Kafka. |
+| **`packages/worker`** | Node.js, KafkaJS, Nodemailer | The resilient background processor. Subscribes to Kafka, formats HTML emails, attaches resumes from Supabase, and dispatches via SMTP with zero memory leaks. |
 
 ---
 
