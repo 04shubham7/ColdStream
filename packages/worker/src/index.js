@@ -111,7 +111,7 @@ const processEmailJob = async (job) => {
     if (resume.fileUrl) {
       attachments.push({
         filename: resume.fileName || "resume.pdf",
-        url: resume.fileUrl,
+        path: resume.fileUrl,
       });
     }
 
