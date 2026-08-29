@@ -126,14 +126,14 @@ export default function Templates() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Templates</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Templates</h1>
           <p className="text-muted-foreground mt-1">
             Manage your cold email templates
           </p>
         </div>
-        <Button onClick={handleCreate}>Create Template</Button>
+        <Button onClick={handleCreate} className="w-full sm:w-auto">Create Template</Button>
       </div>
 
       {isLoading ? (

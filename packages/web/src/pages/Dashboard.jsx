@@ -74,16 +74,16 @@ export default function Dashboard() {
                 {jobsData.jobs.slice(0, 5).map((job) => (
                   <div
                     key={job.jobId}
-                    className="flex items-center justify-between p-4 rounded-xl border border-white/40 bg-white/40 hover:bg-white/60 transition-colors shadow-sm"
+                    className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl border border-white/40 bg-white/40 hover:bg-white/60 transition-colors shadow-sm gap-3 sm:gap-0"
                   >
                     <div>
-                      <p className="text-sm font-medium">{job.recruiterEmail}</p>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-sm font-medium truncate">{job.recruiterEmail}</p>
+                      <p className="text-xs text-muted-foreground truncate">
                         {job.templateId?.name || "Template"}
                       </p>
                     </div>
                     <span
-                      className={`px-3 py-1 text-xs rounded-full font-semibold border ${
+                      className={`w-fit px-3 py-1 text-xs rounded-full font-semibold border ${
                         job.status === "sent"
                           ? "bg-green-100 text-green-700 border-green-200"
                           : job.status === "failed" || job.status === "dlq"
