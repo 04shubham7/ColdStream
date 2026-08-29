@@ -69,7 +69,7 @@ function DispatchForm({ onSuccess }) {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="template">Template</Label>
               <select
@@ -107,7 +107,7 @@ function DispatchForm({ onSuccess }) {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="company">Company</Label>
               <Input
@@ -213,8 +213,8 @@ function InlineJobTracker({ job }) {
       exit={{ height: 0, opacity: 0 }}
       className="overflow-hidden border-t border-white/20 bg-gray-50/50 rounded-b-xl"
     >
-      <div className="p-6">
-        <div className="relative flex justify-between">
+      <div className="p-6 overflow-x-auto">
+        <div className="relative flex justify-between min-w-[300px]">
           <div className="absolute top-5 left-12 right-12 h-0.5 bg-gray-200" />
           <div 
             className="absolute top-5 left-12 h-0.5 bg-primary transition-all duration-500"
@@ -287,17 +287,17 @@ function JobHistory() {
                   className="flex flex-col rounded-xl border border-white/40 bg-white/40 shadow-sm transition-all overflow-hidden"
                 >
                   <div 
-                    className="flex items-center justify-between p-4 hover:bg-white/60 transition-colors cursor-pointer"
+                    className="flex flex-col sm:flex-row sm:items-center justify-between p-4 hover:bg-white/60 transition-colors cursor-pointer gap-4 sm:gap-0"
                     onClick={() => setExpandedJobId(expandedJobId === job.jobId ? null : job.jobId)}
                   >
                     <div>
-                      <p className="text-sm font-medium">{job.recruiterEmail}</p>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-sm font-medium break-all sm:break-normal">{job.recruiterEmail}</p>
+                      <p className="text-xs text-muted-foreground mt-1 sm:mt-0">
                         {job.templateId?.name || "Template"} •{" "}
                         {new Date(job.createdAt).toLocaleDateString()}
                       </p>
                     </div>
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto mt-2 sm:mt-0">
                       <span
                         className={`px-3 py-1 text-xs rounded-full font-semibold border ${
                           job.status === "sent"

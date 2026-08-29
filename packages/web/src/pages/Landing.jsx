@@ -76,25 +76,25 @@ export default function Landing() {
               v1.0 is now live in production
             </motion.div>
 
-            <h1 className="text-6xl md:text-8xl font-extrabold tracking-tighter leading-[1.1] text-gray-900">
+            <h1 className="text-5xl md:text-6xl lg:text-8xl font-extrabold tracking-tighter leading-[1.1] text-gray-900">
               Automate your outreach. <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-gray-600 to-gray-400">
                 Never drop a lead.
               </span>
             </h1>
 
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
               An enterprise-grade asynchronous email dispatcher powered by Apache Kafka, Redis, and React. Send thousands of personalized emails with guaranteed delivery and visual tracking.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8">
-              <Link to={isAuthenticated ? "/dashboard" : "/signup"}>
-                <Button size="lg" className="h-14 px-8 text-lg font-bold shadow-2xl hover:scale-105 transition-transform">
+              <Link to={isAuthenticated ? "/dashboard" : "/signup"} className="w-full sm:w-auto">
+                <Button size="lg" className="w-full sm:w-auto h-14 px-8 text-lg font-bold shadow-2xl hover:scale-105 transition-transform">
                   Start Dispatching
                 </Button>
               </Link>
-              <a href="https://github.com/04shubham7/ColdStream" target="_blank" rel="noreferrer">
-                <Button size="lg" variant="outline" className="h-14 px-8 text-lg font-bold bg-white/50 backdrop-blur-sm border-2 hover:bg-white/80">
+              <a href="https://github.com/04shubham7/ColdStream" target="_blank" rel="noreferrer" className="w-full sm:w-auto">
+                <Button size="lg" variant="outline" className="w-full sm:w-auto h-14 px-8 text-lg font-bold bg-white/50 backdrop-blur-sm border-2 hover:bg-white/80">
                   <Terminal className="w-5 h-5 mr-2" />
                   View Architecture
                 </Button>
