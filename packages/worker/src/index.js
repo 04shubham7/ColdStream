@@ -109,9 +109,14 @@ const processEmailJob = async (job) => {
 
     const attachments = [];
     if (resume.fileUrl) {
+      const resumeRes = await fetch(resume.fileUrl);
+      const resumeArrayBuffer = await resumeRes.arrayBuffer();
+      const resumeBuffer = Buffer.from(resumeArrayBuffer);
+
       attachments.push({
         filename: resume.fileName || "resume.pdf",
-        path: resume.fileUrl,
+        content: resumeBuffer,
+        contentType: "application/pdf",
       });
     }
 
